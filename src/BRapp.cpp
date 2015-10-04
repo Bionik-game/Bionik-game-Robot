@@ -13,7 +13,7 @@ using namespace boost;
 
 int main(){
 	Controller k;
-//	k.modules[NET]->work();
+k.modules[NET]->work();
 	return 0;
 }
 

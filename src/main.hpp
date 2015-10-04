@@ -9,11 +9,12 @@
 #define MAIN_HPP_
 
 #define NO_MODULES 3	//Number of modules
-
+#define NET_PORT 8383	//Network module (server's) port
 						//Module's identifiers
-#define NET 2
+
 #define MOT0 0
 #define MOT1 1
+#define NET  2
 						//Robot movement instruction identifiers
 #define STRAIGHT 10
 #define BACK 	 11
@@ -31,6 +32,11 @@
 #include <time.h>
 #include <unistd.h>
 #include <cstddef>
+#include "abstractstubserver.h"
+#include "stubclient.h"
+#include <jsonrpccpp/server/connectors/httpserver.h>
+#include <stdio.h>
+#include <jsonrpccpp/client/connectors/httpclient.h>
 
 
 #include "Module.hpp"

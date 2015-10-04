@@ -11,44 +11,49 @@ bool Controller::lunit(int nr,void* wsk){
 	int state= -1;
 
 	std::cout<<"CONTROLLER "<<"RECEIVED SIGNAL : " << nr<<std::endl;
-switch (nr){
+	switch (nr){
+	Command* comm;
+	comm=(Command*)(wsk);
 
 
-case NET:					//signal from Network
-	switch(*(int*)(wsk)){	//przerobić na zgodne z std C++11
-	case STRAIGHT:
-		//TODO: zaimplementować wywołania(lub jedno wywołanie) dla modułów silników
+	case NET:					//signal from Network module
+		switch(comm->type){
+		case STRAIGHT:
+			cout<<"straight";
+			//TODO: zaimplementować wywołania(lub jedno wywołanie) dla modułów silników
+
+			break;
+		case BACK:
+			cout<<"back";
+			break;
+		case LEFT:
+			cout<<"left";
+			break;
+		case RIGHT:
+			cout<<"right";
+			break;
+		default :
+			std::cout<<"ERROR IN NETWORK COMMAND"<<std::endl;
+		}
+
 		break;
-	case BACK:
-		break;
-	case LEFT:
-		break;
-	case RIGHT:
-		break;
-	default :
-		std::cout<<"ERROR IN NETWORK COMMAND"<<std::endl;
+		default :
+			;
+
 	}
 
-	break;
-default :
-;
-
-}
-
-return false;
+	return false;
 }
 
 Controller::Controller(){
 	//creation of Modules
-	modules[NET]=new Network();
+	modules[NET]=new Network(NET_PORT,this);
 	modules[MOT0]=new Motor(MOT0);
 	modules[MOT1]=new Motor(MOT1);
 
-	//TODO: przerobić to na sloty
-	//SigC.connect(bind(&Module::work,modules[WR],_1));
-	//(*(this->modules[0])).SigW.connect(bind(&Controller::lunit,this,_1, _2));
-	(*(this->modules[MOT0])).SigW.connect(bind(&Controller::lunit,this,_1 , _2));
-	(*(this->modules[MOT1])).SigW.connect(bind(&Controller::lunit,this,_1 , _2));
+	c_net=(*(this->modules[NET])).SigW.connect(bind(&Controller::lunit,this,_1, _2));
+	c_mot_0=(*(this->modules[MOT0])).SigW.connect(bind(&Controller::lunit,this,_1 , _2));
+	c_mot_1=(*(this->modules[MOT1])).SigW.connect(bind(&Controller::lunit,this,_1 , _2));
 }
 Controller::~Controller(){
 	delete  [] modules;
