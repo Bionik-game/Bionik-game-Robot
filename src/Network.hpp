@@ -22,12 +22,12 @@ struct Command{
 class Network : public Module{
 public:
 	friend class MyStubServer;
-
-	inline void sendSig(Command * c){
+	int robotId;
+	inline void sendSig(void *c){
 		SigW(NET,c);
 	}
 	HttpServer httpserver;
-	Network(int);
+	Network(int, Controller *);
 	bool work(void*);
 	~Network(){};
 };

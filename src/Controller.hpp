@@ -15,6 +15,7 @@ public:
 	boost::signal <bool(void *wsk)>SigC;
 	Controller();
 	bool detected;
+	unsigned short int robotId;
 	Module * modules[NO_MODULES];
 	bool lunit(int nr,void* wsk);	//Logic unit - function handling all actions between objects
 

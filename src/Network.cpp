@@ -6,7 +6,7 @@
  */
 
 #include "main.hpp"
-
+#include <stdlib.h>
 
 using namespace jsonrpc;
 using namespace std;
@@ -19,8 +19,7 @@ public:
 	MyStubServer(AbstractServerConnector &connector,Network *n);
 	Network * N;
 	virtual void notifyServer();
-	virtual string moveRobot(int x,int y);
-	virtual string rotateRobot(int z);
+	virtual string moveRobot(int x,int y,int z);
 };
 
 MyStubServer::MyStubServer(AbstractServerConnector &connector,Network *n) :
@@ -31,34 +30,35 @@ void MyStubServer::notifyServer()
 {
 	cout << "ROBOT#1 got notified" << endl;
 }
-string MyStubServer::moveRobot(int x,int y)
+string MyStubServer::moveRobot(int x,int y, int z)
 {
-
-
-
 	move.xCent=x;
 	move.yCent=y;
-	move.zRad=0;
-	N->sendSig(&move);
-	cout<<"po stronie servera wykonano z wartością x = "<<x<<endl;
-	cout<<"po stronie servera wykonano z wartością y = "<<y<<endl;
-	return "Executed";
-}
-string MyStubServer::rotateRobot(int z)
-{
-
-	move.xCent=0;
-	move.yCent=0;
 	move.zRad=z;
-	N->sendSig(&move);
-	cout<<"po stronie servera wykonano z wartością z = "<<z<<endl;
-	return "Executed";
+	if(x){
+		move.type=HORIZONTAL;
+	}
+	else if(y){
+		move.type=VERTICAL;
+	}
+	else if(z){
+		move.type=ROTATE;
+	}
+	N->sendSig((void*)(&move));
+#ifdef DEBUG
+	cout<<"po stronie servera otrzymano wartość x = "<<x<<endl;
+	cout<<"po stronie servera otrzymano wartość y = "<<y<<endl;
+	cout<<"po stronie servera otrzymano wartość z = "<<z<<endl;
+#endif
+	return "Robot executed command";
 }
 
 
 
-Network::Network(int port): httpserver(port){
+
+Network::Network(int port,Controller * C): httpserver(port),robotId(C->robotId){
 	name="NETWORK";
+
 }
 
 

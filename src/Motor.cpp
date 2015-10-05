@@ -11,29 +11,13 @@ bool Motor::work(void* wsk){
 
 	std::cout<<name<<" RUNNING"<<std::endl;
 
-	int state= *((int*)(wsk));//przerobić na zgodne z standardem C++11
-	switch (state){
-
-	case STRAIGHT:
-		std::cout<<name<<"IS RUNNING STRAIGHT"<<std::endl;
-		//TODO: wystawienie odpowiednich stanów na porty polaryzacji kierunku mostka + PWM
-		break;
-	case BACK:
-		std::cout<<name<<"IS RUNNING BACK"<<std::endl;
-			//TODO: wystawienie odpowiednich stanów na porty polaryzacji kierunku mostka + PWM
-			break;
-	case LEFT:
-		std::cout<<name<<"IS RUNNING LEFT"<<std::endl;
-			//TODO: wystawienie odpowiednich stanów na porty polaryzacji kierunku mostka + PWM
-			break;
-	case RIGHT:
-		std::cout<<name<<"IS RUNNING RIGHT"<<std::endl;
-			//TODO: wystawienie odpowiednich stanów na porty polaryzacji kierunku mostka + PWM
-			break;
-
-	default:
-		;
-	}
+	int state = *(static_cast<int*>(wsk));
+if(state<0){
+	//TODO : wysłać po I2C komunikat LEWO/TYŁ/OBRÓTL
+}
+else{
+	//TODO : wysłać po I2C komunikat PRAWO/TYŁ/OBRÓTP
+}
 	return false;
 }
 
@@ -41,5 +25,5 @@ Motor::Motor(int nr){
 std::stringstream ss;
 ss<<nr;
 	name="MOTOR"+std::string(ss.str());
-	//TODO: Inicjalizacja portów i PWM'u Rasp'a
+	//TODO: Inicjalizacja I2C
 }

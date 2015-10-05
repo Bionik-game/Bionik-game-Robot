@@ -12,28 +12,26 @@ bool Controller::lunit(int nr,void* wsk){
 
 	std::cout<<"CONTROLLER "<<"RECEIVED SIGNAL : " << nr<<std::endl;
 	switch (nr){
-	Command* comm;
-	comm=(Command*)(wsk);
-
 
 	case NET:					//signal from Network module
+		Command* comm;
+		comm=static_cast<Command*>(wsk);
+#ifdef DEBUG
+	printf("komenda %d \n",comm->type);
+#endif
 		switch(comm->type){
-		case STRAIGHT:
-			cout<<"straight";
-			//TODO: zaimplementować wywołania(lub jedno wywołanie) dla modułów silników
-
+		case VERTICAL:
+			cout<<"Vertical movement\n";
+			modules[MOT0]->work((void*)(comm->xCent));
 			break;
-		case BACK:
-			cout<<"back";
+		case HORIZONTAL:
+			cout<<"Horizontal movement\n";
 			break;
-		case LEFT:
-			cout<<"left";
-			break;
-		case RIGHT:
-			cout<<"right";
-			break;
+		case ROTATE:
+					cout<<"Rotate movement\n";
+					break;
 		default :
-			std::cout<<"ERROR IN NETWORK COMMAND"<<std::endl;
+			std::cerr<<"ERROR IN NETWORK COMMAND"<<std::endl;
 		}
 
 		break;
@@ -47,7 +45,7 @@ bool Controller::lunit(int nr,void* wsk){
 
 Controller::Controller(){
 	//creation of Modules
-	modules[NET]=new Network(NET_PORT);
+	modules[NET]=new Network(NET_PORT,this);
 	modules[MOT0]=new Motor(MOT0);
 	modules[MOT1]=new Motor(MOT1);
 

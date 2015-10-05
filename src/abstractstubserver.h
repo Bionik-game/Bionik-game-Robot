@@ -12,26 +12,20 @@ class AbstractStubServer : public jsonrpc::AbstractServer<AbstractStubServer>
     public:
         AbstractStubServer(jsonrpc::AbstractServerConnector &conn, jsonrpc::serverVersion_t type = jsonrpc::JSONRPC_SERVER_V2) : jsonrpc::AbstractServer<AbstractStubServer>(conn, type)
         {
-            this->bindAndAddMethod(jsonrpc::Procedure("moveRobot", jsonrpc::PARAMS_BY_NAME, jsonrpc::JSON_STRING, "x",jsonrpc::JSON_INTEGER,"y",jsonrpc::JSON_INTEGER, NULL), &AbstractStubServer::moveRobotI);
-            this->bindAndAddMethod(jsonrpc::Procedure("rotateRobot", jsonrpc::PARAMS_BY_NAME, jsonrpc::JSON_STRING, "z",jsonrpc::JSON_INTEGER, NULL), &AbstractStubServer::rotateRobotI);
+            this->bindAndAddMethod(jsonrpc::Procedure("moveRobot", jsonrpc::PARAMS_BY_NAME, jsonrpc::JSON_STRING, "x",jsonrpc::JSON_INTEGER,"y",jsonrpc::JSON_INTEGER,"z",jsonrpc::JSON_INTEGER, NULL), &AbstractStubServer::moveRobotI);
             this->bindAndAddNotification(jsonrpc::Procedure("notifyServer", jsonrpc::PARAMS_BY_POSITION,  NULL), &AbstractStubServer::notifyServerI);
         }
 
         inline virtual void moveRobotI(const Json::Value &request, Json::Value &response)
         {
-            response = this->moveRobot(request["x"].asInt(), request["y"].asInt());
-        }
-        inline virtual void rotateRobotI(const Json::Value &request, Json::Value &response)
-        {
-            response = this->rotateRobot(request["z"].asInt());
+            response = this->moveRobot(request["x"].asInt(), request["y"].asInt(), request["z"].asInt());
         }
         inline virtual void notifyServerI(const Json::Value &request)
         {
             (void)request;
             this->notifyServer();
         }
-        virtual std::string moveRobot(int x, int y) = 0;
-        virtual std::string rotateRobot(int z) = 0;
+        virtual std::string moveRobot(int x, int y, int z) = 0;
         virtual void notifyServer() = 0;
 };
 

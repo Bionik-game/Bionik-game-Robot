@@ -11,15 +11,16 @@
 #define NO_MODULES 3	//Number of modules
 #define NET_PORT 8383	//Network module (server's) port
 						//Module's identifiers
+#define DEBUG
 
 #define MOT0 0
 #define MOT1 1
 #define NET  2
 						//Robot movement instruction identifiers
-#define STRAIGHT 10
-#define BACK 	 11
-#define LEFT	 12
-#define RIGHT	 13
+#define VERTICAL 10
+#define HORIZONTAL 	 11
+#define ROTATE	 12
+
 
 #include <boost/signal.hpp>
 #include <boost/bind.hpp>
