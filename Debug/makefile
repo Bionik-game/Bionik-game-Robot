@@ -1,11 +1,59 @@
-½XÀnğ†åÀERä>H4ïÏœ”£ëbÊxP;Y³2†D@üæµ:q¡—‡ç‘
-lo™<¨ÖS¬ûÑd’b}Œ¢ŠÎÁ0n85ıOÉ‚û±Ì|Y¢8Å%Àû+»½ õšjGĞ7XÿîšãN˜ä§å“ûO}±¥?0äÅÅ‚W+Nu¹døªµDDàJ_“¨Z²2»óäRàá.DÆ(¼^€_üæµ:q¡—ª=¼a'o™Füæµ:q¡—¯=¼a'o™ÜN~ÆÊxQ;Y³2†D@üæµ:q¡—‡ç‘
-lo™ş®=ÀEh>ÖÛqqáÒ·­X¨ÖhqĞLØ#-°%ø›`ç¹&XÖ=óĞæIÛÀ]ú†™.‰ƒ¤"’½}±¥?0äÅÅ‚W+Nu¹døªµDDàJ_“¨Z²w§6¦([C“:Îâ®óüæµ:q¡—™8¼a'o™!¯úK7ßÙ“”ØÀ@Nˆ¬”£ëbÊxS;Y³2†D@üæµ:q¡—‡ç‘
-lo™k ­ìjÙ„ëäŠ¤Àxç{©X‡³qcËtÃ»şCüæµ:q¡—¯=¼a'o™´qÅ³¸Ñ|O…ICÒª}±¥?0äÅÅ‚W+Nu¹døªµDDàJ_“¨Z²=0Ò]á<´a¦g¿6n¤ÉSüæµ:q¡—¬=¼a'o™ø*ƒ2 »P¿?9¼—\”£ëbÊxP;Y³2†D@üæµ:q¡—‡ç‘
-lo™<¨ÖS¬ûÑd’b}Œ¢ŠÎŠ–ubd_®s(ß–¯³[Ñ\ğPÆİŞ´öAF‚DĞ7XÿîšãNXä§å“ûO}±¥?0äÅÅ‚W+Nu¹døªµDDàJ_“¨Z²2»óäRàá.DÆ(¼^€_üæµ:q¡—ª=¼a'o™Füæµ:q¡—¯=¼a'o™ÜN~ÆÊxQ;Y³2†D@üæµ:q¡—‡ç‘
-lo™ş®=ÀEh>ÖÛqqáÒ·v0?ñ/ê^ØÈ™U1¯	Q³^—•_M#â¡L1ökÀ]ú†™.‰Ûƒ¤"’½}±¥?0äÅÅ‚W+Nu¹døªµDDàJ_“¨Z²f«­óäÏxCÁÿb/èæ|óüæµ:q¡—8¼a'o™	“¼ƒşß0 (>CNµiĞcl”£ëbÊxS;Y³2†D@üæµ:q¡—‡ç‘
-lo™+E)ã2oH½›!VaØl¦Võ*áW¦•©?±í‘lÉ
-Ğ¨ùæµ:q¡—¦=´a'o™´qÅ³¸Ñ|O…ICÒª}±¥?0äÅÅ‚W+Nu¹døªµDDàJ_“¨Z²zi"·Ì=ÒUÊÊeÃ©…¬ qüæµ:q¡—©=¼a'o™¤B+¿4²*|Ì)ë}”£ëbÊxS;Y³2†D@üæµ:q¡—‡ç‘
-lo™&º\,2IŒc¨û÷Y“®–á¢ÿ]›Ü¨Íåph4@üæµ:q¡—¯=¼a'o™
-ÕÄşÀ%11íÿtÆVûÎ5ØIc›Á8"YşAdøªµDDàJ_“¨Z²2»óäRàá.DÆ(¼^€_üæµ:q¡—ª=¼a'o™åaŒÀRá¬+9Ê³9cïÊöH·Ï>7|t+?H<T¨Nüæµ:q¡—ç‘
-lo™+E)ã2oH½›!VaØl¦V,3¸½à¼¦}øw()iù„I><øŞÊ\•+´gªì;¡>:ßÙá/´õmwÆVûÎ5Ø
+################################################################################
+# Automatically-generated file. Do not edit!
+################################################################################
+
+-include ../makefile.init
+
+RM := rm -rf
+
+# All of the sources participating in the build are defined here
+-include sources.mk
+-include src/subdir.mk
+-include subdir.mk
+-include objects.mk
+
+ifneq ($(MAKECMDGOALS),clean)
+ifneq ($(strip $(C++_DEPS)),)
+-include $(C++_DEPS)
+endif
+ifneq ($(strip $(C_DEPS)),)
+-include $(C_DEPS)
+endif
+ifneq ($(strip $(CC_DEPS)),)
+-include $(CC_DEPS)
+endif
+ifneq ($(strip $(CPP_DEPS)),)
+-include $(CPP_DEPS)
+endif
+ifneq ($(strip $(CXX_DEPS)),)
+-include $(CXX_DEPS)
+endif
+ifneq ($(strip $(C_UPPER_DEPS)),)
+-include $(C_UPPER_DEPS)
+endif
+endif
+
+-include ../makefile.defs
+
+# Add inputs and outputs from these tool invocations to the build variables 
+
+# All Target
+all: BG-Robot
+
+# Tool invocations
+BG-Robot: $(OBJS) $(USER_OBJS)
+	@echo 'Building target: $@'
+	@echo 'Invoking: GCC C++ Linker'
+	g++ -L/usr/local/lib -o "BG-Robot" $(OBJS) $(USER_OBJS) $(LIBS)
+	@echo 'Finished building target: $@'
+	@echo ' '
+
+# Other Targets
+clean:
+	-$(RM) $(OBJS)$(C++_DEPS)$(C_DEPS)$(CC_DEPS)$(CPP_DEPS)$(EXECUTABLES)$(CXX_DEPS)$(C_UPPER_DEPS) BG-Robot
+	-@echo ' '
+
+.PHONY: all clean dependents
+.SECONDARY:
+
+-include ../makefile.targets

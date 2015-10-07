@@ -25,15 +25,11 @@ bool Controller::lunit(int nr,void* wsk){
 			cout<<"Vertical movement\n";
 			char *str;
 			sprintf(str,"%d",comm->yCent);
-			char * str_1;
-			sprintf(str_1,"%d",comm->xCent);
-			string b(str_1);
-			string c(str);
-			string d =b+c;
+
 printf("string przesyłany do mod. silników %s",str);
 
 			if(comm->xCent>0){
-			//	modules[MOT0]->work((void*)(P));
+			//	modules[MOT0]->work((void*)(S));
 			}
 
 			break;
