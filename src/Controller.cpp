@@ -5,7 +5,8 @@
  *      Author: Tomek Ferens (fero)
  */
 #include "main.hpp"
-
+#include <stdio.h>
+using namespace std;
 
 bool Controller::lunit(int nr,void* wsk){
 	int state= -1;
@@ -22,10 +23,25 @@ bool Controller::lunit(int nr,void* wsk){
 		switch(comm->type){
 		case VERTICAL:
 			cout<<"Vertical movement\n";
-			modules[MOT0]->work((void*)(comm->xCent));
+			char *str;
+			sprintf(str,"%d",comm->yCent);
+			char * str_1;
+			sprintf(str_1,"%d",comm->xCent);
+			string b(str_1);
+			string c(str);
+			string d =b+c;
+printf("string przesyłany do mod. silników %s",str);
+
+			if(comm->xCent>0){
+			//	modules[MOT0]->work((void*)(P));
+			}
+
 			break;
 		case HORIZONTAL:
 			cout<<"Horizontal movement\n";
+			char *str2;
+					sprintf(str2,"%d",comm->xCent);
+		printf("string przesyłany do mod. silników %s",str2);
 			break;
 		case ROTATE:
 					cout<<"Rotate movement\n";

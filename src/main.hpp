@@ -18,8 +18,8 @@
 #define NET  2
 						//Robot movement instruction identifiers
 #define VERTICAL 10
-#define HORIZONTAL 	 11
-#define ROTATE	 12
+#define HORIZONTAL 11
+#define ROTATE 12
 
 
 #include <boost/signal.hpp>
