@@ -13,7 +13,7 @@ bool Controller::lunit(int nr,void* wsk){
 
 	std::cout<<"CONTROLLER "<<"RECEIVED SIGNAL : " << nr<<std::endl;
 	switch (nr){
-
+//
 	case NET:					//signal from Network module
 		Command* comm;
 		comm=static_cast<Command*>(wsk);
