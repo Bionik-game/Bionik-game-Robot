@@ -13,6 +13,10 @@ String final_message;
 int char_count;
 int new_command[3] = {0,0,0};
 
+unsigned long time_of_last_message = 0;
+unsigned long current_time = 1;
+
+
 int motor_1_a = 5;
 int motor_1_b = 3;
 
@@ -27,7 +31,7 @@ int motor_2_b = 11;
 float min_length = 50.0;
 float max_xy_val = 10;
 
-
+#define MAX_WAIT_TIME_MS 500
 
 void setup() 
 {                
@@ -53,7 +57,10 @@ void setup()
 
 void loop() {
  
-
+ current_time = millis();
+ if( current_time - time_of_last_message > MAX_WAIT_TIME_MS)
+  robot_stop();
+ 
   
 }
 
@@ -92,6 +99,7 @@ void receiveData(int byteCount){
       receiving = false;
       Serial.println(final_message);
       findCommand(final_message);
+      time_of_last_message = millis();
       if(new_command[2] != 0 ){
        robot_stop();
        rotate(new_command[2]); 
