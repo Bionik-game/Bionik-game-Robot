@@ -254,11 +254,11 @@ void robot_stop(){
 void rotate( int x){
  if( x > 0){
     motor_1_forw(x);
-    motor_2_forw(x);
+    motor_2_back(x);
    motor_3_forw(x);
  }else if (x < 0){
    motor_1_back(abs(x));
-   motor_2_back(abs(x));
+   motor_2_forw(abs(x));
    motor_3_back(abs(x)); 
    
  }
