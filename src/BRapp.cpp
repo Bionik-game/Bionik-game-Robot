@@ -12,6 +12,8 @@ using namespace std;
 using namespace boost;
 
 int main(){
+
+
 	Controller k;
 k.modules[NET]->work();
 	return 0;

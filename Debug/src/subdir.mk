@@ -6,20 +6,29 @@
 CPP_SRCS += \
 ../src/BRapp.cpp \
 ../src/Controller.cpp \
+../src/Gamepad.cpp \
 ../src/Motor.cpp \
-../src/Network.cpp 
+../src/Network.cpp \
+../src/mainjoystick.cpp \
+../src/qjoystick.cpp 
 
 OBJS += \
 ./src/BRapp.o \
 ./src/Controller.o \
+./src/Gamepad.o \
 ./src/Motor.o \
-./src/Network.o 
+./src/Network.o \
+./src/mainjoystick.o \
+./src/qjoystick.o 
 
 CPP_DEPS += \
 ./src/BRapp.d \
 ./src/Controller.d \
+./src/Gamepad.d \
 ./src/Motor.d \
-./src/Network.d 
+./src/Network.d \
+./src/mainjoystick.d \
+./src/qjoystick.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
