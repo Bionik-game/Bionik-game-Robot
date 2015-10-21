@@ -6,7 +6,7 @@
 #define POLL_INTERVAL 40
 using namespace std;
 QJoystick::QJoystick()
-    : m_joystick(nullptr)
+    : m_joystick(NULL)
 {
     // Sure, we're only using the Joystick, but SDL doesn't work if video isn't initialised
     sdl::SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK);
@@ -44,7 +44,7 @@ void QJoystick::setJoystick(int js)
     assert(js < availableJoysticks());
     assert(js >= 0);
 
-    if (m_joystick != nullptr)
+    if (m_joystick != NULL)
         sdl::SDL_JoystickClose(m_joystick);
     m_joystick = sdl::SDL_JoystickOpen(js);
 }

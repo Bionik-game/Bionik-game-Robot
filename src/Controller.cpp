@@ -47,6 +47,9 @@ printf("string przesyłany do mod. silników %s",str);
 		}
 
 		break;
+		case GPD:
+			modules[MOT]->work();
+			break;
 		default :
 			;
 
@@ -58,11 +61,11 @@ printf("string przesyłany do mod. silników %s",str);
 Controller::Controller(){
 	//creation of Modules
 	modules[NET]=new Network(NET_PORT,this);
-	modules[MOT0]=new Motor(MOT0);
+	modules[MOT]=new Motor(MOT);
 	modules[MOT1]=new Motor(MOT1);
 
 	c_net=(*(this->modules[NET])).SigW.connect(bind(&Controller::lunit,this,_1, _2));
-	c_mot_0=(*(this->modules[MOT0])).SigW.connect(bind(&Controller::lunit,this,_1 , _2));
+	c_mot_0=(*(this->modules[MOT])).SigW.connect(bind(&Controller::lunit,this,_1 , _2));
 	c_mot_1=(*(this->modules[MOT1])).SigW.connect(bind(&Controller::lunit,this,_1 , _2));
 }
 Controller::~Controller(){

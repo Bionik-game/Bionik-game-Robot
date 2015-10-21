@@ -37,6 +37,8 @@
 								</option>
 								<option id="gnu.cpp.link.option.libs.1021212997" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="jsonrpccpp-common"/>
+									<listOptionValue builtIn="false" value="pthread"/>
+									<listOptionValue builtIn="false" value="SDL"/>
 									<listOptionValue builtIn="false" value="boost_signals"/>
 									<listOptionValue builtIn="false" value="jsonrpccpp-server"/>
 									<listOptionValue builtIn="false" value="jsoncpp"/>

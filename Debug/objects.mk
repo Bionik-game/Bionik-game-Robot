@@ -4,5 +4,5 @@
 
 USER_OBJS :=
 
-LIBS := -ljsonrpccpp-common -lboost_signals -ljsonrpccpp-server -ljsoncpp
+LIBS := -ljsonrpccpp-common -lpthread -lSDL -lboost_signals -ljsonrpccpp-server -ljsoncpp
 

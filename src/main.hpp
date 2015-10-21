@@ -13,14 +13,19 @@
 						//Module's identifiers
 #define DEBUG
 
-#define MOT0 0
+/*
+ * Module's identifiers for Controller
+ */
+#define MOT  0
 #define MOT1 1
 #define NET  2
+#define GPD	 3
 						//Robot movement instruction identifiers
 #define VERTICAL 10
 #define HORIZONTAL 11
 #define ROTATE 12
 
+#define GAMEPAD			//If defined - Gamepad Steering enabled (conditional compilation)
 
 #include <boost/signal.hpp>
 #include <boost/bind.hpp>
@@ -38,11 +43,13 @@
 #include <jsonrpccpp/server/connectors/httpserver.h>
 #include <stdio.h>
 #include <jsonrpccpp/client/connectors/httpclient.h>
-
+#include <pthread.h>
 
 #include "Module.hpp"
 #include "Controller.hpp"
 #include "Motor.hpp"
 #include "Network.hpp"
+#include "Gamepad.hpp"
+#include "mainjoystick.h"
 
 #endif /* MAIN_HPP_ */
