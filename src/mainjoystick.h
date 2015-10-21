@@ -1,7 +1,8 @@
 #ifndef MAINJOYSTICK_H
 #define MAINJOYSTICK_H
-
-
+#include <iostream>
+//#include "main.hpp"
+//#include "Gamepad.hpp"
 #include "qjoystick.h"
 using namespace std;
 class MainJoystick 
@@ -17,12 +18,13 @@ private:
     QJoystick joy;
 
 public:
+
     explicit MainJoystick(unsigned robotId, string device);
 
 	/**
 	 * Metoda odczytuje aktualne wartosci z joysticka i przesyła je dalej.
 	 */
-    void getCommands();
+    void getCommands(void *);
     
     /**
      *  ta metoda odcztyje akualne wartosci z joysticka i przy nacisnieciu 'RB' sterowanie przejmuje tylko joystick

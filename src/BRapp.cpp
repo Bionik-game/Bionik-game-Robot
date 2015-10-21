@@ -16,7 +16,7 @@ int main(){
 	 * Creation of fundamental objects
 	 */
 	Gamepad g;
-	Controller k;
+	Controller k(&g);
 	/*
 	 * Gamepad's thread creation
 	 */

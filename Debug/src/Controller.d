@@ -1,7 +1,7 @@
 src/Controller.d: ../src/Controller.cpp ../src/main.hpp \
  ../src/abstractstubserver.h ../src/stubclient.h ../src/Module.hpp \
  ../src/Controller.hpp ../src/Motor.hpp ../src/Network.hpp \
- ../src/Gamepad.hpp ../src/mainjoystick.h ../src/qjoystick.h
+ ../src/mainjoystick.h ../src/qjoystick.h ../src/Gamepad.hpp
 
 ../src/main.hpp:
 
@@ -17,8 +17,8 @@ src/Controller.d: ../src/Controller.cpp ../src/main.hpp \
 
 ../src/Network.hpp:
 
-../src/Gamepad.hpp:
-
 ../src/mainjoystick.h:
 
 ../src/qjoystick.h:
+
+../src/Gamepad.hpp:

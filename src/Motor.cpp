@@ -20,20 +20,17 @@
 
 // The I2C bus: This is for V2 pi's. For V1 Model B you need i2c-0
 static const char *devName = "/dev/i2c-1";
-
+void send_string(char*);
 #define STRING_SIZE 8
 using namespace std;
 bool Motor::work(void* wsk){
 
 	std::cout<<name<<" RUNNING"<<std::endl;
-
-	int state = *(static_cast<int*>(wsk));
-	if(state<0){
-		//TODO : wysłać po I2C komunikat LEWO/TYŁ/OBRÓTL
-	}
-	else{
-		//TODO : wysłać po I2C komunikat PRAWO/TYŁ/OBRÓTP
-	}
+	/*Zdekodowanie komendy na wartości x,y,obrot*/
+	Command* comm;
+	comm=static_cast<Command*>(wsk);
+	//TODO: przekształcić comm na string z wartościami x,y,obrot i wysłać do Arduino
+	send_string("");
 	return false;
 }
 

@@ -45,11 +45,14 @@
 #include <jsonrpccpp/client/connectors/httpclient.h>
 #include <pthread.h>
 
+
 #include "Module.hpp"
 #include "Controller.hpp"
 #include "Motor.hpp"
 #include "Network.hpp"
-#include "Gamepad.hpp"
 #include "mainjoystick.h"
+#include "Gamepad.hpp"
+
+
 
 #endif /* MAIN_HPP_ */

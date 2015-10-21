@@ -7,9 +7,8 @@
 #include "main.hpp"
 
 Gamepad::Gamepad(){
-	name="Gamepad";
-	MainJoystick Joy(0,"upa");
+	//name="Gamepad";
 }
 bool Gamepad::work(void *wsk){
-
+	SigW(0,wsk);
 }

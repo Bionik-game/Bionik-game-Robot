@@ -13,11 +13,11 @@ using namespace jsonrpc;
 
 struct Command{
 	int type;
-	unsigned xCent;
-	unsigned yCent;
-	unsigned zRad;
-
+	int xCent;
+	int yCent;
+	int zRad;
 };
+
 
 class Network : public Module{
 public:

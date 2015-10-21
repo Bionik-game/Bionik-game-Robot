@@ -1,7 +1,16 @@
 #include "mainjoystick.h"
+#include "Gamepad.hpp"
 #include <iostream>
 #include <string>
 using namespace std;
+
+struct Comm{
+	int type;
+	int xCent;
+	int yCent;
+	int zRad;
+};
+
 MainJoystick::MainJoystick(unsigned robotId, string device)
     : tempVal(0.0), robotId(robotId), device(device), tempCounter(0), padRequest(false)
 {
@@ -10,8 +19,9 @@ MainJoystick::MainJoystick(unsigned robotId, string device)
     joy.setJoystick(0);
 }
 
-void MainJoystick::getCommands()
+void MainJoystick::getCommands(void * g)
 {
+	Gamepad *G=(Gamepad*)(g);
 
     joy.getdata();
     if(joy.axis.size()!=6)
@@ -38,9 +48,14 @@ void MainJoystick::getCommands()
 	double predkoscX = joy.axis[4]*0.03051851;
 	double predkoscY = joy.axis[3] *0.03051851;
 	double obrot = joy.axis[0]*0.03051851; 
-	
-	//W TYM MIEJSCU POWINNA BYC ZASTOSOWANA JAKAS FORMA PRZEKAZANIA INFORMACJI Z JOYSTICKA
 
+
+	//W TYM MIEJSCU POWINNA BYC ZASTOSOWANA JAKAS FORMA PRZEKAZANIA INFORMACJI Z JOYSTICKA
+	Comm robotCommands;
+		robotCommands.xCent=predkoscX;
+		robotCommands.xCent=predkoscY;
+		robotCommands.zRad=obrot;
+	G->work(&robotCommands);
     //RobotCommands robotCommands = {robotId, joy.axis[4]*0.03051851 , joy.axis[3] *0.03051851 , joy.axis[0]*0.03051851 };
      //  stala 0.03051851 powoduje ze MAX wartosc w strukturze jest nie wieksza niz 1000
     //emit robotCommandUpdate(robotCommands);

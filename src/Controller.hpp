@@ -13,7 +13,7 @@ class Controller{
 public:
 	typedef boost::signals::connection conn;
 	boost::signal <bool(void *wsk)>SigC;
-	Controller();
+	Controller(void*);
 	bool detected;
 	unsigned short int robotId;
 	Module * modules[NO_MODULES];
@@ -23,7 +23,7 @@ public:
 private:
 	conn c_net;
 	conn c_mot_0;
-	conn c_mot_1;
+	conn c_gpd;
 };
 
 
