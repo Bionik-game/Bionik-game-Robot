@@ -27,6 +27,9 @@
 
 #define GAMEPAD			//If defined - Gamepad Steering enabled (conditional compilation)
 
+#define ERR 1
+#define INF 2
+
 #include <boost/signal.hpp>
 #include <boost/bind.hpp>
 #include <fstream>
@@ -50,9 +53,16 @@
 #include "Controller.hpp"
 #include "Motor.hpp"
 #include "Network.hpp"
-#include "mainjoystick.h"
 #include "Gamepad.hpp"
 
+
+
+static string itos(int i){
+	std::stringstream ss;
+		ss<<i;
+		return ss.str();
+
+}
 
 
 #endif /* MAIN_HPP_ */

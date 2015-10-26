@@ -15,6 +15,19 @@ public:
 	virtual ~Module(){};
 	boost::signal<bool(int nr,void* wsk)> SigW;
 	bool on;
+	/*
+	 * Prints debug message in format : [type_of_message][module_name]: message
+	 */
+	 void dbg_msg(std::string msg,int type=0){
+		if(!type)
+			std::cout<<"[DEBUG]"<<"["<<name<<"]: "<<msg<<std::endl;
+		else if(type==ERR){
+			std::cout<<"[ERROR]"<<"["<<name<<"]: "<<msg<<std::endl;
+		}
+		else if(type==INF){
+			std::cout<<"[INFO]"<<"["<<name<<"]: "<<msg<<std::endl;
+		}
+	}
 };
 
 

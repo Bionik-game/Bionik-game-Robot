@@ -11,20 +11,16 @@ using namespace std;
 bool Controller::lunit(int nr,void* wsk){
 	int state= -1;
 
-	std::cout<<"CONTROLLER "<<"RECEIVED SIGNAL : " << nr<<std::endl;
+	dbg_msg("Received SIGNAL : "+itos(nr),INF);
 	switch (nr){
 	case NET:					//signal from Network module
 		Command* comm;
 		comm=static_cast<Command*>(wsk);
-#ifdef DEBUG
-		printf("komenda %d \n",comm->type);
-#endif
-
+		dbg_msg("Controller - NET");
 		break;
 	case GPD:				//signal from Gamepad module
-
-		//TODO:
-		modules[MOT]->work();
+		dbg_msg("Controller - GPD");
+		modules[MOT]->work(wsk);
 		break;
 	default :
 		;
@@ -38,7 +34,7 @@ Controller::Controller(void* m){
 	//creation of Modules
 	modules[NET]=new Network(NET_PORT,this);
 	modules[MOT]=new Motor(MOT);
-	//modules[MOT1]=new Motor(MOT1);
+	name="Controller";
 
 	c_net=(*(this->modules[NET])).SigW.connect(bind(&Controller::lunit,this,_1, _2));
 	c_mot_0=(*(this->modules[MOT])).SigW.connect(bind(&Controller::lunit,this,_1 , _2));

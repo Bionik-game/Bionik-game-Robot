@@ -9,7 +9,6 @@ CPP_SRCS += \
 ../src/Gamepad.cpp \
 ../src/Motor.cpp \
 ../src/Network.cpp \
-../src/mainjoystick.cpp \
 ../src/qjoystick.cpp 
 
 OBJS += \
@@ -18,7 +17,6 @@ OBJS += \
 ./src/Gamepad.o \
 ./src/Motor.o \
 ./src/Network.o \
-./src/mainjoystick.o \
 ./src/qjoystick.o 
 
 CPP_DEPS += \
@@ -27,7 +25,6 @@ CPP_DEPS += \
 ./src/Gamepad.d \
 ./src/Motor.d \
 ./src/Network.d \
-./src/mainjoystick.d \
 ./src/qjoystick.d 
 
 

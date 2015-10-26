@@ -46,9 +46,9 @@ string MyStubServer::moveRobot(int x,int y, int z)
 	}
 	N->sendSig((void*)(&move));
 #ifdef DEBUG
-	cout<<"po stronie servera otrzymano wartość x = "<<x<<endl;
-	cout<<"po stronie servera otrzymano wartość y = "<<y<<endl;
-	cout<<"po stronie servera otrzymano wartość z = "<<z<<endl;
+	N->dbg_msg("po stronie servera otrzymano wartość x = "+itos(x));
+	N->dbg_msg("po stronie servera otrzymano wartość y = "+itos(y));
+	N->dbg_msg("po stronie servera otrzymano wartość z = "+itos(z));
 #endif
 	return "Robot executed command";
 }
@@ -64,7 +64,7 @@ Network::Network(int port,Controller * C): httpserver(port),robotId(C->robotId){
 
 bool Network::work(void *wsk)
 {
-
+	dbg_msg("Running");
 	MyStubServer s(httpserver,this);
 	s.StartListening();
 	getchar();

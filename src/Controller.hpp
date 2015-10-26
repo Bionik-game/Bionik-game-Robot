@@ -9,7 +9,7 @@
 #define CONTROLLER_HPP_
 #include "main.hpp"
 
-class Controller{
+class Controller: public Module{
 public:
 	typedef boost::signals::connection conn;
 	boost::signal <bool(void *wsk)>SigC;
@@ -18,7 +18,9 @@ public:
 	unsigned short int robotId;
 	Module * modules[NO_MODULES];
 	bool lunit(int nr,void* wsk);	//Logic unit - function handling all actions between objects
-
+bool work(void *m){
+	return 0;
+}
 	~Controller();
 private:
 	conn c_net;
