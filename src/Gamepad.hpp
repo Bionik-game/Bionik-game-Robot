@@ -11,7 +11,7 @@
 
 #include "qjoystick.h"
 #include "main.hpp"
-static bool gpd_enabled=false;
+static bool gpd_enabled=true;
 using namespace std;
 class Gamepad: public Module{
 
@@ -32,7 +32,7 @@ public:
 	static void *runner(void*param){
 		Gamepad *G =(Gamepad*)(param);
 		cout<<"\nGamepad thread running\n";
-		if(gpd_enabled)
+		while(gpd_enabled)
 		G->getCommands();
 		pthread_exit(0);
 	}
