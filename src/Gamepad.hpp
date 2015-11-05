@@ -11,19 +11,29 @@
 
 #include "qjoystick.h"
 #include "main.hpp"
-static bool gpd_enabled=true;
+#include <linux/joystick.h>
 using namespace std;
+static bool gpd_enabled=true;
 class Gamepad: public Module{
-
+	int fd;
+	int *axis;
+		int *button;
+		int i;
+		struct js_event js;
+		unsigned char axes;
+		unsigned char buttons;
+		int version;
+		char namee[128];
 public:
 	QJoystick joy;
+
 
 	//boost::signal<bool(int nr,void* wsk)> SigW;
 	/**
 	 * Metoda odczytuje aktualne wartosci z joysticka i przesyła je dalej.
 	 */
 	void getCommands();
-
+static void invert(bool &b);
 	/**
 	 *  ta metoda odcztyje akualne wartosci z joysticka i przy nacisnieciu 'RB' sterowanie przejmuje tylko joystick
 	 */
@@ -32,7 +42,7 @@ public:
 	static void *runner(void*param){
 		Gamepad *G =(Gamepad*)(param);
 		cout<<"\nGamepad thread running\n";
-		while(gpd_enabled)
+		while(1)
 		G->getCommands();
 		pthread_exit(0);
 	}

@@ -6,10 +6,25 @@
  */
 #include "main.hpp"
 
+#include <sys/ioctl.h>
+#include <sys/time.h>
+#include <sys/types.h>
+#include <stdlib.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <errno.h>
+#include <string.h>
+
+#include <linux/joystick.h>
+
+#define NAME_LENGTH 128
+extern bool gpd_enabled;
 Gamepad::Gamepad(){
+
 	name="Gamepad";
-	gpd_enabled=false;
-	joy.setJoystick(0);
+	axis =(int*) calloc(axes, sizeof(int));
+	button = (int*)calloc(buttons, sizeof(char));
 	checkRequest();
 }
 bool Gamepad::work(void *wsk){
@@ -21,50 +36,80 @@ bool Gamepad::work(void *wsk){
 void Gamepad::getCommands()
 {
 
-
-	joy.getdata();
-	if(joy.axis.size()!=6)
-		dbg_msg("Detected number of axis differs from 6! Change mode to 'X' !",ERR);
-	/* Tutaj zawiera sie legenda, ktora komorka axis i buttons odnosi sie do ktorej osi.
-	 * Bardzo prosze nie ruszac. To moze byc przydatne przy dalszych zmianach.
-        joystick.at(current_joystick)->axis[0]=joy->axis[0];
-        joystick.at(current_joystick)->axis[1]=joy->axis[1];
-        //joystick.at(current_joystick)->axis[2]=joy->axis[2];//LT
-        joystick.at(current_joystick)->axis[3]=joy->axis[3];
-        joystick.at(current_joystick)->axis[4]=joy->axis[4];
-        //joystick.at(current_joystick)->axis[5]=joy->axis[5];//RT
-        joystick.at(current_joystick)->button[0] = joy->buttons[0]; // A
-        joystick.at(current_joystick)->button[1] = joy->buttons[1]; // B
-        joystick.at(current_joystick)->button[2] = joy->buttons[2]; // X
-        joystick.at(current_joystick)->button[3] = joy->buttons[3]; // Y
-        joystick.at(current_joystick)->button[4] = joy->buttons[4]; //LB
-        joystick.at(current_joystick)->button[5] = joy->buttons[5]; //RB
-        joystick.at(current_joystick)->button[6] = joy->buttons[6]; //back
-        joystick.at(current_joystick)->button[7] = joy->buttons[7]; //start */
+	axes = 2;
+	buttons = 2;
+	version = 0x000800;
+	char namee[128] = "Unknown";
 
 
-	double predkoscX = joy.axis[4]*0.03051851;
-	double predkoscY = joy.axis[3] *0.03051851;
-	double obrot = joy.axis[0]*0.03051851;
+	ioctl(fd, JSIOCGVERSION, &version);
+	ioctl(fd, JSIOCGAXES, &axes);
+	ioctl(fd, JSIOCGBUTTONS, &buttons);
+	ioctl(fd, JSIOCGNAME(NAME_LENGTH), namee);
+
+
+
+
+
+	//joy.getdata();
+
+	if (read(fd, &js, sizeof(struct js_event)) != sizeof(struct js_event)) {
+		perror("\njstest: error reading");
+		exit (1);
+	}
+
+	switch(js.type & ~JS_EVENT_INIT) {
+	case JS_EVENT_BUTTON:
+		button[js.number] = js.value;
+		break;
+	case JS_EVENT_AXIS:
+		axis[js.number] = js.value;
+		break;
+	}
+
+
+
+	if (axes) {/*
+			printf("Axes: ");
+			for (i = 0; ( i==0||i==3 || i==4); i++)
+				printf("%2d:%6d ", i, axis[i]);
+	 */
+		//	printf(" X = %d\n Y = %d\n Z = %d\n",axis[4],axis[3],axis[0]);
+		//	fflush(stdout);
+	}
+
+	if (buttons) {
+		if(button[7]){
+			invert(gpd_enabled);
+			dbg_msg("Gamepad: "+ itos((int)(gpd_enabled)));
+			//printf("\ngamepad %s",gpd_enabled ? "on": "false");
+		}
+	}
+
+
 
 
 	//W TYM MIEJSCU POWINNA BYC ZASTOSOWANA JAKAS FORMA PRZEKAZANIA INFORMACJI Z JOYSTICKA
 	Comm robotCommands;
-	robotCommands.xCent=predkoscX;
-	robotCommands.yCent=predkoscY;
-	robotCommands.zRad=obrot;
-	dbg_msg("zRad = "+itos(robotCommands.zRad));
+	robotCommands.xCent=axis[4]*0.03051851;
+	robotCommands.yCent=axis[3] *0.03051851;;
+	robotCommands.zRad=axis[0] *0.03051851;;
+	/*dbg_msg("zRad = "+itos(robotCommands.zRad));
 	dbg_msg("xCent = "+itos(robotCommands.xCent));
 	dbg_msg("yCent = "+itos(robotCommands.yCent));
+	 */
+	if(gpd_enabled)
 	work(&robotCommands);
-	//RobotCommands robotCommands = {robotId, joy.axis[4]*0.03051851 , joy.axis[3] *0.03051851 , joy.axis[0]*0.03051851 };
-	//  stala 0.03051851 powoduje ze MAX wartosc w strukturze jest nie wieksza niz 1000
-	//emit robotCommandUpdate(robotCommands);
-
 }
 
 void Gamepad::checkRequest()
 {
+	if ((fd = open("/dev/input/js1", O_RDONLY)) < 0) {
+		perror("jstest");
+		exit(1);
+	}
+	/*
+}
 	joy.getdata();
 	//     Jako guzika przejscia uzylem przycisku "RB"
 	if(joy.axis.size()!=6)
@@ -74,4 +119,11 @@ void Gamepad::checkRequest()
 		gpd_enabled=true;
 		dbg_msg("Joystick control enabled!",INF);
 	}
+	 */
+}
+void Gamepad::invert(bool &b){
+	bool a=b;
+	a=!a;
+	b=a;
+
 }
