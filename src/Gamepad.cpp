@@ -6,27 +6,31 @@
  */
 #include "main.hpp"
 
-#include <sys/ioctl.h>
-#include <sys/time.h>
-#include <sys/types.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <errno.h>
-#include <string.h>
 
-#include <linux/joystick.h>
 
 #define NAME_LENGTH 128
 extern bool gpd_enabled;
 Gamepad::Gamepad(){
 
+	axes = 2;
+	buttons = 2;
+	version = 0x000800;
 	name="Gamepad";
 	axis =(int*) calloc(axes, sizeof(int));
 	button = (int*)calloc(buttons, sizeof(char));
+	/*
+	 * Retrieve gamepad's info
+	 */
+	ioctl(fd, JSIOCGVERSION, &version);
+	ioctl(fd, JSIOCGAXES, &axes);
+	ioctl(fd, JSIOCGBUTTONS, &buttons);
+	ioctl(fd, JSIOCGNAME(NAME_LENGTH), namee);
+
 	checkRequest();
 }
+/*
+ * Sends signal to Controller
+ */
 bool Gamepad::work(void *wsk){
 	dbg_msg("Running");
 	SigW(GPD,wsk);
@@ -35,24 +39,6 @@ bool Gamepad::work(void *wsk){
 
 void Gamepad::getCommands()
 {
-
-	axes = 2;
-	buttons = 2;
-	version = 0x000800;
-	char namee[128] = "Unknown";
-
-
-	ioctl(fd, JSIOCGVERSION, &version);
-	ioctl(fd, JSIOCGAXES, &axes);
-	ioctl(fd, JSIOCGBUTTONS, &buttons);
-	ioctl(fd, JSIOCGNAME(NAME_LENGTH), namee);
-
-
-
-
-
-	//joy.getdata();
-
 	if (read(fd, &js, sizeof(struct js_event)) != sizeof(struct js_event)) {
 		perror("\njstest: error reading");
 		exit (1);
@@ -67,29 +53,18 @@ void Gamepad::getCommands()
 		break;
 	}
 
-
-
-	if (axes) {/*
-			printf("Axes: ");
-			for (i = 0; ( i==0||i==3 || i==4); i++)
-				printf("%2d:%6d ", i, axis[i]);
-	 */
-		//	printf(" X = %d\n Y = %d\n Z = %d\n",axis[4],axis[3],axis[0]);
-		//	fflush(stdout);
-	}
-
 	if (buttons) {
+		/* If 'START' button pressed -
+		 * enable/disable gamepad
+		 */
 		if(button[7]){
 			invert(gpd_enabled);
 			dbg_msg("Gamepad: "+ itos((int)(gpd_enabled)));
-			//printf("\ngamepad %s",gpd_enabled ? "on": "false");
 		}
 	}
-
-
-
-
-	//W TYM MIEJSCU POWINNA BYC ZASTOSOWANA JAKAS FORMA PRZEKAZANIA INFORMACJI Z JOYSTICKA
+/*
+ * Scale values to range[-1000;1000]
+ */
 	Comm robotCommands;
 	robotCommands.xCent=axis[4]*0.03051851;
 	robotCommands.yCent=axis[3] *0.03051851;;
@@ -98,32 +73,27 @@ void Gamepad::getCommands()
 	dbg_msg("xCent = "+itos(robotCommands.xCent));
 	dbg_msg("yCent = "+itos(robotCommands.yCent));
 	 */
+
+	/*
+	 * Sends signal with values to Controller
+	 */
 	if(gpd_enabled)
-	work(&robotCommands);
+		work(&robotCommands);
 }
 
 void Gamepad::checkRequest()
 {
+	/*
+	 * Acquire acces to gamepad device node
+	 */
 	if ((fd = open("/dev/input/js1", O_RDONLY)) < 0) {
 		perror("jstest");
 		exit(1);
 	}
-	/*
-}
-	joy.getdata();
-	//     Jako guzika przejscia uzylem przycisku "RB"
-	if(joy.axis.size()!=6)
-		dbg_msg("Detected number of axis differs from 6! Change mode to 'X' !",ERR);
-	// joy.buttons[5] == 1 - to jest warunkiem przejecia sterowania przez joystick
-	if(joy.buttons[5]== 1){
-		gpd_enabled=true;
-		dbg_msg("Joystick control enabled!",INF);
-	}
-	 */
+
 }
 void Gamepad::invert(bool &b){
 	bool a=b;
 	a=!a;
 	b=a;
-
 }

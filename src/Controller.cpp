@@ -9,13 +9,14 @@
 using namespace std;
 
 bool Controller::lunit(int nr,void* wsk){
-	int state= -1;
 
 	dbg_msg("Received SIGNAL : "+itos(nr),INF);
 	switch (nr){
 	case NET:					//signal from Network module
 		Command* comm;
 		comm=static_cast<Command*>(wsk);
+		modules[MOT]->work(wsk);
+		modules[NOT]->work((void*)0x02);
 		dbg_msg("Controller - NET");
 		break;
 	case GPD:				//signal from Gamepad module
@@ -34,6 +35,7 @@ Controller::Controller(void* m){
 	//creation of Modules
 	modules[NET]=new Network(NET_PORT,this);
 	modules[MOT]=new Motor(MOT);
+	modules[NOT]=new Notifier();
 	name="Controller";
 
 	c_net=(*(this->modules[NET])).SigW.connect(bind(&Controller::lunit,this,_1, _2));

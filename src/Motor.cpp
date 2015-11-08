@@ -6,16 +6,9 @@
  *
  */
 #include "main.hpp"
-#include <string.h>
-#include <unistd.h>
-#include <errno.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <linux/i2c-dev.h>
-#include <sys/ioctl.h>
-#include <fcntl.h>
-#include <unistd.h>
 
+
+//Arduino's Address
 #define ADDRESS 0x04
 
 // The I2C bus: This is for V2 pi's. For V1 Model B you need i2c-0
@@ -30,8 +23,11 @@ bool Motor::work(void* wsk){
 	/*Zdekodowanie komendy na wartości x,y,obrot*/
 	Command* comm;
 	comm=(Command*)(wsk);
+
+	/*Format komendy do Arduino : +x,y,z*/
 	string move = "+"+itos(comm->xCent)+","+itos(comm->yCent)+","+itos(comm->zRad);
 	dbg_msg(move);
+
 	const char* cstr = move.c_str();
 	dbg_msg("zRad = "+itos(comm->zRad));
 	dbg_msg("xCent = "+itos(comm->xCent));
@@ -41,9 +37,7 @@ bool Motor::work(void* wsk){
 }
 
 Motor::Motor(int nr){
-
 	name="MOTOR";
-	//TODO: Inicjalizacja I2C
 }
 
 void send_string(const  char* message ){
