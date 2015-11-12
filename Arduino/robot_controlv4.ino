@@ -17,21 +17,21 @@ unsigned long time_of_last_message = 0;
 unsigned long current_time = 1;
 
 
-int motor_1_a = 5;
-int motor_1_b = 3;
+int motor_1_a = 10;
+int motor_1_b = 11;
 
-int motor_3_a = 9;
-int motor_3_b = 6;
+int motor_3_a = 5;
+int motor_3_b = 3;
 
 
-int motor_2_a = 10;
-int motor_2_b = 11;
+int motor_2_a = 9;
+int motor_2_b = 6;
 
 
 float min_length = 50.0;
-float max_xy_val = 10;
+float max_xy_val = 1000;
 
-#define MAX_WAIT_TIME_MS 500
+#define MAX_WAIT_TIME_MS 1000
 
 void setup() 
 {                
@@ -41,6 +41,7 @@ void setup()
   pinMode(motor_2_b, OUTPUT);
   pinMode(motor_3_a, OUTPUT);
   pinMode(motor_3_b, OUTPUT);
+  pinMode(13, OUTPUT);
   
   // initialize i2c as slave
  Wire.begin(SLAVE_ADDRESS);
@@ -58,9 +59,22 @@ void setup()
 void loop() {
  
  current_time = millis();
- if( current_time - time_of_last_message > MAX_WAIT_TIME_MS)
+ if( current_time - time_of_last_message > MAX_WAIT_TIME_MS){
   robot_stop();
+  digitalWrite(13,0);
+}
  
+ // findCommand("+1000,0,0");
+ // move_ver2(new_command[0],new_command[1],new_command[2]);
+/*  if(new_command[0] == 1000){
+    digitalWrite(13,1);
+    delay(1000000);
+    digitalWrite(13,0);
+    delay(1000000);
+    digitalWrite(13,1);
+    delay(1000000);
+    digitalWrite(13,0);
+  }*/
   
 }
 
@@ -88,6 +102,8 @@ void receiveData(int byteCount){
   buf = Wire.read();
   
   if( buf == '+' ){
+    digitalWrite(13,1);
+
     receiving = true;
     char_count = 0;
     message_buffer = "";
@@ -100,13 +116,15 @@ void receiveData(int byteCount){
       Serial.println(final_message);
       findCommand(final_message);
       time_of_last_message = millis();
-      if(new_command[2] != 0 ){
+      move_ver2(new_command[0],new_command[1],new_command[2]);
+     /* if(new_command[2] != 0 ){
        robot_stop();
        rotate(new_command[2]); 
       }else if(new_command[0] == 0 && new_command[1] == 0 ){
       robot_stop();
       }else
        move_ver2(new_command[0],new_command[1],new_command[2]);
+       */
     }
   }
   
