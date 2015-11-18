@@ -9,7 +9,7 @@
 #define MAIN_HPP_
 
 #define NO_MODULES 3	//Number of modules
-#define NET_PORT 8383	//Network module (server's) port
+#define NET_PORT 30000	//Network module (server's) port
 //Module's identifiers
 #define DEBUG
 

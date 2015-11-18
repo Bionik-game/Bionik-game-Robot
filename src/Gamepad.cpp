@@ -26,7 +26,7 @@ Gamepad::Gamepad(){
 	ioctl(fd, JSIOCGBUTTONS, &buttons);
 	ioctl(fd, JSIOCGNAME(NAME_LENGTH), namee);
 
-	checkRequest();
+	//checkRequest();
 }
 /*
  * Sends signal to Controller
@@ -40,8 +40,8 @@ bool Gamepad::work(void *wsk){
 void Gamepad::getCommands()
 {
 	if (read(fd, &js, sizeof(struct js_event)) != sizeof(struct js_event)) {
-		perror("\njstest: error reading");
-		exit (1);
+		dbg_msg("Error reading",ERR);
+
 	}
 
 	switch(js.type & ~JS_EVENT_INIT) {
@@ -59,12 +59,12 @@ void Gamepad::getCommands()
 		 */
 		if(button[7]){
 			invert(gpd_enabled);
-			dbg_msg("Gamepad: "+ itos((int)(gpd_enabled)));
+			dbg_msg("Gamepad: "+ (((int)(gpd_enabled))== 1 ? string("ENABLED"): string("DISABLED")));
 		}
 	}
-/*
- * Scale values to range[-1000;1000]
- */
+	/*
+	 * Scale values to range[-1000;1000]
+	 */
 	Comm robotCommands;
 	robotCommands.xCent=axis[4]*0.03051851;
 	robotCommands.yCent=axis[3] *0.03051851;;
@@ -81,14 +81,19 @@ void Gamepad::getCommands()
 		work(&robotCommands);
 }
 
-void Gamepad::checkRequest()
+bool Gamepad::checkRequest()
 {
 	/*
 	 * Acquire acces to gamepad device node
 	 */
-	if ((fd = open("/dev/input/js1", O_RDONLY)) < 0) {
-		perror("jstest");
-		exit(1);
+	if ((fd = open("/dev/input/js2", O_RDONLY)) < 0) {
+		dbg_msg("Not detected !",ERR);
+		gpd_enabled=false;
+		return 1;
+	}
+	else {
+		gpd_enabled=true;
+		return 0;
 	}
 
 }

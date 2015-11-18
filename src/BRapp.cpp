@@ -14,7 +14,7 @@ void* checkState(void* param){
 
 	Controller * C= (Controller *)param;
 	//TODO: sprawdzenie stanu Li-pola i poinformowanie o tym Controllera
-C->modules[NOT];
+	C->modules[NOT];
 }
 
 int main(){
@@ -24,7 +24,21 @@ int main(){
 	Gamepad g;
 	Controller k(&g);
 	/*
-	 * Gamepad's thread creation
+
+	/*
+	 * Li-pol's status check thread creation
+	 */
+	/*
+	pthread_t tid2;
+	pthread_attr_t attr2;
+	pthread_attr_init(&attr2);
+	if(pthread_create(&tid2,&attr2,&checkState,&k))
+	{cerr<<"error in thread";}
+	 */
+	/*
+	 * Network module starting and awaiting commands from CC
+	 */
+	 /* Gamepad's thread creation
 	 */
 #ifdef GAMEPAD
 	pthread_t tid1;
@@ -32,27 +46,24 @@ int main(){
 	pthread_attr_init(&attr1);
 	if(pthread_create(&tid1,&attr1,&(Gamepad::runner),&g))
 	{cerr<<"error in thread";}
+	if(g.checkRequest()){
+		if(pthread_join(tid1,NULL)){
+			cerr<<"error joining Gamepad thread";
+		}
+		else cout<<"GPAD THREAD JOINED"<<endl;
+	}
 #endif
-	/*
-	 * Li-pol's status check thread creation
-	 */
-	pthread_t tid2;
-	pthread_attr_t attr2;
-	pthread_attr_init(&attr2);
-	if(pthread_create(&tid2,&attr2,&checkState,&k))
-	{cerr<<"error in thread";}
-	/*
-	 * Network module starting and awaiting commands from CC
-	 */
 	cout<<"\nMain thread running\n";
 	k.modules[NET]->work();
+
+
 #ifdef GAMEPAD
-	if(pthread_join(tid1,NULL)){
-		cerr<<"error joining Gamepad thread";
-	}
+
+	/*
 	if(pthread_join(tid2,NULL)){
 		cerr<<"error joining thread";
 	}
+	 */
 #endif
 
 	return 0;

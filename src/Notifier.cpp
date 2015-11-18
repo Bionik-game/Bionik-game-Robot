@@ -11,8 +11,8 @@
 bool Notifier::work(void* wsk){
 
 	dbg_msg("Running");
-	LEDS= *(static_cast<char*>(wsk));
-
+//	LEDS= *(static_cast<char*>(wsk));
+cout<<"LEDS = "<<*((int*)(wsk))<<endl;
 	if(LEDS & 0x01){
 #ifdef BRD_BUILD
 

@@ -32,13 +32,13 @@ public:
 	/**
 	 *  ta metoda odcztyje akualne wartosci z joysticka i przy nacisnieciu 'RB' sterowanie przejmuje tylko joystick
 	 */
-	void checkRequest();
+	bool checkRequest();
 	Gamepad();
 
 	static void *runner(void*param){
 		Gamepad *G =(Gamepad*)(param);
 		cout<<"\nGamepad thread running\n";
-		while(1)
+		while(gpd_enabled)
 			G->getCommands();
 		pthread_exit(0);
 	}

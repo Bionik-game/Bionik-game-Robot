@@ -16,7 +16,7 @@ bool Controller::lunit(int nr,void* wsk){
 		Command* comm;
 		comm=static_cast<Command*>(wsk);
 		modules[MOT]->work(wsk);
-		modules[NOT]->work((void*)0x02);
+		//modules[NOT]->work((void*)0x02);
 		dbg_msg("Controller - NET");
 		break;
 	case GPD:				//signal from Gamepad module
