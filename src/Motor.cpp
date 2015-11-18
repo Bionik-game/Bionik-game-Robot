@@ -26,12 +26,15 @@ bool Motor::work(void* wsk){
 
 	/*Format komendy do Arduino : +x,y,z*/
 	string move = "+"+itos(comm->xCent)+","+itos(comm->yCent)+","+itos(comm->zRad);
-	dbg_msg(move);
-
 	const char* cstr = move.c_str();
+#ifndef DEBUG
+	//dbg_msg(move);
+
+
 	dbg_msg("zRad = "+itos(comm->zRad));
 	dbg_msg("xCent = "+itos(comm->xCent));
 	dbg_msg("yCent = "+itos(comm->yCent));
+#endif
 	send_string(cstr);
 	return false;
 }
@@ -44,15 +47,15 @@ void send_string(const  char* message ){
 	int file;
 
 	if ((file = open(devName, O_RDWR)) < 0) {
-	//	fprintf(stderr, "I2C: Failed to access %d\n", devName);
+		//	fprintf(stderr, "I2C: Failed to access %d\n", devName);
 		//exit(1);
 	}
 
-//	printf("I2C: acquiring buss to 0x%x\n", ADDRESS);
+	//	printf("I2C: acquiring buss to 0x%x\n", ADDRESS);
 
 	if (ioctl(file, I2C_SLAVE, ADDRESS) < 0) {
-	//	fprintf(stderr, "I2C: Failed to acquire bus access/talk to slave 0x%x\n", ADDRESS);
-	//	exit(1);
+		//	fprintf(stderr, "I2C: Failed to acquire bus access/talk to slave 0x%x\n", ADDRESS);
+		//	exit(1);
 	}
 
 

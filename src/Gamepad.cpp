@@ -59,7 +59,7 @@ void Gamepad::getCommands()
 		 */
 		if(button[7]){
 			invert(gpd_enabled);
-			dbg_msg("Gamepad: "+ (((int)(gpd_enabled))== 1 ? string("ENABLED"): string("DISABLED")));
+			dbg_msg("Gamepad: "+ (((int)(gpd_enabled))== 1 ? string("ENABLED"): string("DISABLED")),INF);
 		}
 	}
 	/*

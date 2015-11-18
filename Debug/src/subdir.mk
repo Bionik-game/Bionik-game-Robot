@@ -9,8 +9,7 @@ CPP_SRCS += \
 ../src/Gamepad.cpp \
 ../src/Motor.cpp \
 ../src/Network.cpp \
-../src/Notifier.cpp \
-../src/qjoystick.cpp 
+../src/Notifier.cpp 
 
 OBJS += \
 ./src/BRapp.o \
@@ -18,8 +17,7 @@ OBJS += \
 ./src/Gamepad.o \
 ./src/Motor.o \
 ./src/Network.o \
-./src/Notifier.o \
-./src/qjoystick.o 
+./src/Notifier.o 
 
 CPP_DEPS += \
 ./src/BRapp.d \
@@ -27,8 +25,7 @@ CPP_DEPS += \
 ./src/Gamepad.d \
 ./src/Motor.d \
 ./src/Network.d \
-./src/Notifier.d \
-./src/qjoystick.d 
+./src/Notifier.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
