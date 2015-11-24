@@ -86,7 +86,7 @@ bool Gamepad::checkRequest()
 	/*
 	 * Acquire acces to gamepad device node
 	 */
-	if ((fd = open("/dev/input/js2", O_RDONLY)) < 0) {
+	if ((fd = open("/dev/input/js0", O_RDONLY)) < 0) {
 		dbg_msg("Not detected !",ERR);
 		gpd_enabled=false;
 		return 1;

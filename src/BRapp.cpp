@@ -40,6 +40,8 @@ int main(){
 	 */
 	 /* Gamepad's thread creation
 	 */
+// k.modules[NET]->work();
+
 #ifdef GAMEPAD
 	pthread_t tid1;
 	pthread_attr_t attr1;

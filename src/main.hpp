@@ -9,7 +9,7 @@
 #define MAIN_HPP_
 
 #define NO_MODULES 3	//Number of modules
-#define NET_PORT 30000	//Network module (server's) port
+#define NET_PORT 30001	//Network module (server's) port
 //Module's identifiers
 //#define DEBUG
 
@@ -67,6 +67,7 @@
 #include "Network.hpp"
 #include "Gamepad.hpp"
 #include "Notifier.hpp"
+static int sync_i2c;
 
 static string itos(int i){
 	std::stringstream ss;

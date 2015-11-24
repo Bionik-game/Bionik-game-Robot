@@ -14,11 +14,11 @@
 // The I2C bus: This is for V2 pi's. For V1 Model B you need i2c-0
 static const char *devName = "/dev/i2c-1";
 void send_string(const char*);
-#define STRING_SIZE 8
+#define STRING_SIZE 18
 using namespace std;
 
 bool Motor::work(void* wsk){
-
+sync_i2c = 1;
 	dbg_msg("Running");
 	/*Zdekodowanie komendy na wartości x,y,obrot*/
 	Command* comm;
@@ -28,7 +28,7 @@ bool Motor::work(void* wsk){
 	string move = "+"+itos(comm->xCent)+","+itos(comm->yCent)+","+itos(comm->zRad);
 	const char* cstr = move.c_str();
 #ifndef DEBUG
-	//dbg_msg(move);
+//dbg_msg(move);
 
 
 	dbg_msg("zRad = "+itos(comm->zRad));
@@ -45,21 +45,23 @@ Motor::Motor(int nr){
 
 void send_string(const  char* message ){
 	int file;
-
 	if ((file = open(devName, O_RDWR)) < 0) {
-		//	fprintf(stderr, "I2C: Failed to access %d\n", devName);
+//dbg_msg("I2C: FAILED to acces system device",ERR);
+//	fprintf(stderr, "I2C: Failed to access %d\n", devName);
 		//exit(1);
 	}
-
-	//	printf("I2C: acquiring buss to 0x%x\n", ADDRESS);
+#ifndef DEBUG
+//dbg_msg("I2C: SUCCEDED to acquire bus",INF);
+#endif
+//	printf("I2C: acquiring buss to 0x%x\n", ADDRESS);
 
 	if (ioctl(file, I2C_SLAVE, ADDRESS) < 0) {
-		//	fprintf(stderr, "I2C: Failed to acquire bus access/talk to slave 0x%x\n", ADDRESS);
+//dbg_msg("I2C : FAILED to talk to slave",ERR);
 		//	exit(1);
 	}
 
-
-	for(int i=0; i < STRING_SIZE; i++){
+int i;
+	for( i=0; i < STRING_SIZE; i++){
 		//cmd[0] = message[i];
 		if (write(file, &message[i], 1) == 1) {
 
@@ -71,9 +73,9 @@ void send_string(const  char* message ){
 		}
 
 		// Now wait else you could crash the Arduino by sending requests too fast
-		usleep(10000);
+//		usleep(10);
 	}
 
 	close(file);
-
+sync_i2c=0;
 }

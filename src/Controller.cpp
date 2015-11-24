@@ -11,7 +11,9 @@ using namespace std;
 bool Controller::lunit(int nr,void* wsk){
 
 	dbg_msg("Received SIGNAL : "+itos(nr),INF);
+if(!sync_i2c){
 	switch (nr){
+
 	case NET:					//signal from Network module
 		Command* comm;
 		comm=static_cast<Command*>(wsk);
@@ -27,7 +29,7 @@ bool Controller::lunit(int nr,void* wsk){
 		;
 
 	}
-
+}
 	return false;
 }
 
@@ -35,7 +37,7 @@ Controller::Controller(void* m){
 	//creation of Modules
 	modules[NET]=new Network(NET_PORT,this);
 	modules[MOT]=new Motor(MOT);
-	modules[NOT]=new Notifier();
+//	modules[NOT]=new Notifier();
 	name="Controller";
 
 	c_net=(*(this->modules[NET])).SigW.connect(bind(&Controller::lunit,this,_1, _2));
