@@ -66,8 +66,8 @@ void Gamepad::getCommands()
 	 * Scale values to range[-1000;1000]
 	 */
 	Comm robotCommands;
-	robotCommands.xCent=axis[4]*0.03051851;
-	robotCommands.yCent=axis[3] *0.03051851;;
+	robotCommands.xCent=axis[3]*0.03051851;
+	robotCommands.yCent=axis[4] *0.03051851;;
 	robotCommands.zRad=axis[0] *0.03051851;;
 	/*dbg_msg("zRad = "+itos(robotCommands.zRad));
 	dbg_msg("xCent = "+itos(robotCommands.xCent));
