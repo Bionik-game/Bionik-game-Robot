@@ -11,6 +11,7 @@ using namespace std;
 bool Controller::lunit(int nr,void* wsk){
 
 	dbg_msg("Received SIGNAL : "+itos(nr),INF);
+	printf("=)))");
 if(!sync_i2c){
 	switch (nr){
 
