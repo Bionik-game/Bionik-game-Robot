@@ -77,5 +77,6 @@ int i;
 	}
 
 	close(file);
-sync_i2c=0;
+sync_i2c=0;// dodany komentarz Zuza 
 }
+
